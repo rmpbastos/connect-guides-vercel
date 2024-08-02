@@ -24,7 +24,7 @@ export default function SearchResultsPage() {
                     <Link to={'/singleGuideService/' + service._id} key={service._id}>
                         <div className="bg-gray-500 mb-2 rounded-2xl flex">
                             {service.photos?.[0] && (
-                                <img className="rounded-2xl object-cover aspect-square" src={"http://localhost:4000" + service.photos?.[0]} />
+                                <img className="rounded-2xl object-cover aspect-square" src={service.photos?.[0]} />
                             )}
                         </div>
                         <h2 className="font-bold">{service.ownerName}</h2>
