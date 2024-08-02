@@ -19,7 +19,7 @@ const { rejects } = require('assert');
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 // Define jwt secret
-const jwtSecret = 'fasdgasdgqawegqadgas';
+const jwtSecret = process.env.JWT_SECRET;
 
 app.use(express.json());
 
