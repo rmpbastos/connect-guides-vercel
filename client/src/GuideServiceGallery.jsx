@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "./Image";
 
 export default function GuideServiceGallery({ singleGuideService }) {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
@@ -35,7 +36,7 @@ export default function GuideServiceGallery({ singleGuideService }) {
           {singleGuideService?.photos?.length > 0 &&
             singleGuideService.photos.map((photo) => (
               <div>
-                <img src={"http://localhost:4000" + photo}></img>
+                <Image src={photo} />
               </div>
             ))}
         </div>
@@ -49,28 +50,28 @@ export default function GuideServiceGallery({ singleGuideService }) {
         <div>
           {singleGuideService.photos?.[0] && (
             <div>
-              <img
+              <Image
                 onClick={() => setShowAllPhotos(true)}
                 className="aspect-square cursor-pointer object-cover"
-                src={"http://localhost:4000" + singleGuideService.photos[0]}
+                src={singleGuideService.photos[0]}
               />
             </div>
           )}
         </div>
         <div className="grid">
           {singleGuideService.photos?.[1] && (
-            <img
+            <Image
               onClick={() => setShowAllPhotos(true)}
               className="aspect-square cursor-pointer object-cover"
-              src={"http://localhost:4000" + singleGuideService.photos[1]}
+              src={singleGuideService.photos[1]}
             />
           )}
           <div className="overflow-hidden">
             {singleGuideService.photos?.[2] && (
-              <img
+              <Image
                 onClick={() => setShowAllPhotos(true)}
                 className="aspect-square cursor-pointer object-cover relative top-2"
-                src={"http://localhost:4000" + singleGuideService.photos[2]}
+                src={singleGuideService.photos[2]}
               />
             )}
           </div>

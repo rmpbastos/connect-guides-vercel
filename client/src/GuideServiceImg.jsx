@@ -1,3 +1,5 @@
+import Image from "./Image";
+
 export default function GuideServiceImg({service, index=0, className=null}){
     if(!service.photos?.length){
         return '';
@@ -7,7 +9,7 @@ export default function GuideServiceImg({service, index=0, className=null}){
 
     }
     return(
-        <img className={className} src={"http://localhost:4000" + service.photos[index]}
+        <Image className={className} src={service.photos[index]}
               alt={service.title} />
     );
 }
