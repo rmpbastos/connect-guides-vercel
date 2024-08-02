@@ -13,19 +13,38 @@ export default function LoginPage() {
   async function handleLoginSubmit(event) {
     event.preventDefault();
     try {
-      const response = await axios.post('/login', { email, password });
-      if (response.status === 200) {
-        const { data } = response;
-        setUser(data);
-        alert('Login successful');
-        setRedirect(true);
-      } else {
-        alert("Invalid email or password");
-      }
+      const { data } = await axios.post('/login', { email, password });
+      setUser(data);
+      alert('Login successful');
+      setRedirect(true);
     } catch (e) {
-      alert("Invalid email or password");
+      if (e.response && e.response.status === 401) {
+        alert('Login failed: ' + e.response.data.error);
+      } else if (e.response && e.response.status === 404) {
+        alert('Login failed: ' + e.response.data.error);
+      } else {
+        alert('Login failed');
+      }
     }
   }
+
+
+  // async function handleLoginSubmit(event) {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await axios.post('/login', { email, password });
+  //     if (response.status === 200) {
+  //       const { data } = response;
+  //       setUser(data);
+  //       alert('Login successful');
+  //       setRedirect(true);
+  //     } else {
+  //       alert("Invalid email or password");
+  //     }
+  //   } catch (e) {
+  //     alert("Invalid email or password");
+  //   }
+  // }
 
   // async function handleLoginSubmit(event) {
   //   event.preventDefault();

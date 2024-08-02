@@ -91,12 +91,35 @@ app.post('/login', async (req, res) => {
         res.cookie('token', token).json(userDoc);
       });
     } else {
-      res.status(422).json({ error: 'Invalid password' });
+      res.status(401).json({ error: 'Invalid password' });
     }
   } else {
     res.status(404).json({ error: 'User not found' });
   }
 });
+
+
+
+// app.post('/login', async (req, res) => {
+//   const { email, password } = req.body;
+//   const userDoc = await User.findOne({ email });
+//   if (userDoc) {
+//     const passOk = bcrypt.compareSync(password, userDoc.password);
+//     if (passOk) {
+//       jwt.sign({
+//         email: userDoc.email,
+//         id: userDoc._id
+//       }, jwtSecret, {}, (err, token) => {
+//         if (err) throw err;
+//         res.cookie('token', token).json(userDoc);
+//       });
+//     } else {
+//       res.status(422).json({ error: 'Invalid password' });
+//     }
+//   } else {
+//     res.status(404).json({ error: 'User not found' });
+//   }
+// });
 
 
 // app.post('/login', async (req, res) => {
@@ -152,19 +175,50 @@ app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
     }
     res.json(uploadedFiles);
 });
-    
+
+
 app.get("/account", (req, res) => {
   const { token } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
-      const {name, email, _id} = await User.findById(userData.id);
-      res.json({name, email, _id});
+      if (err) {
+        console.error('Token verification failed:', err);
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      try {
+        const user = await User.findById(userData.id);
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+
+        const { name, email, _id } = user;
+        res.json({ name, email, _id });
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
     });
   } else {
-    res.json(null);
+    res.status(401).json({ error: 'No token provided' });
   }
 });
+
+
+
+    
+// app.get("/account", (req, res) => {
+//   const { token } = req.cookies;
+//   if (token) {
+//     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+//       if (err) throw err;
+//       const {name, email, _id} = await User.findById(userData.id);
+//       res.json({name, email, _id});
+//     });
+//   } else {
+//     res.json(null);
+//   }
+// });
 
 app.post('/logout', (req, res) => {
     res.cookie('token', '').json(true);
