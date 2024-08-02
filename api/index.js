@@ -21,7 +21,7 @@ const mime = require('mime-types');
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 // Define jwt secret
-const jwtSecret = process.env.JWT_SECRET;
+const jwtSecret = "fasdgasdgqawegqadgas";
 
 const bucket = 'connect-guides-bucket';
 
